@@ -21,10 +21,14 @@ package ie.interfazgrafica;
 
     @Override
     public void decidirAccion(Personaje enemigo) {
-        if(ataqueSupremo != null){
+        if(ataqueSupremo != null && !ataqueSupremo.yaUsado()){
             ataqueSupremo.ejecutar(enemigo);
-            ataqueSupremo= null;
-        }else if (!yaInvocoArma) {
+            return;
+        }
+        if(ataqueSupremo != null && ataqueSupremo.yaUsado()){
+            ataqueSupremo=null;
+        }
+        if (!yaInvocoArma) {
             invocarArma();
         } else {
             atacar(enemigo);
