@@ -61,7 +61,7 @@ public class IEInterfazGrafica {
         System.out.println("\n===== RESULTADO FINAL =====");
         System.out.println("Heroe -> Vida: " + heroe.getVida());
         System.out.println("Villano -> Vida: " + villano.getVida());
-<<<<<<< HEAD
+
         System.out.println("Armas invocadas por " + heroe.getNombre() + ":");
         for (Arma a : heroe.getArmasInvocadas()) {
             System.out.println("- " + a.getNombre());
@@ -70,7 +70,7 @@ public class IEInterfazGrafica {
         System.out.println("Armas invocadas por " + villano.getNombre() + ":");
         for (Arma a : villano.getArmasInvocadas()) {
             System.out.println("- " + a.getNombre());
-=======
+
 
         // ===== RANKING DE VIDA FINAL (solo cálculo y muestra, sin reporte) =====
         List<Personaje> participantes = Arrays.asList(heroe, villano);
@@ -92,8 +92,10 @@ public class IEInterfazGrafica {
                 " [" + estado + "]" +
                 " | Supremos usados: " + p.getSupremosUsados()
             );
->>>>>>> origin/contadorAtaques
+
         }
     }
+  }
 }
+
 
