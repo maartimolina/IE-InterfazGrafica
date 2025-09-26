@@ -3,14 +3,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
 package ie.interfazgrafica;
-
 import java.util.Random;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Comparator;
 
+/**
+ *
+ * @author Mar
+ */
 public class IEInterfazGrafica {
 
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String[] args) {
         Random rnd = new Random();
         Heroe heroe = new Heroe(
@@ -53,7 +56,6 @@ public class IEInterfazGrafica {
                 break;
             }
 
-            // cambio de turno
             Personaje tmp = actual; actual = enemigo; enemigo = tmp;
             System.out.println();
         }
@@ -61,39 +63,6 @@ public class IEInterfazGrafica {
         System.out.println("\n===== RESULTADO FINAL =====");
         System.out.println("Heroe -> Vida: " + heroe.getVida());
         System.out.println("Villano -> Vida: " + villano.getVida());
-<<<<<<< HEAD
-        System.out.println("Armas invocadas por " + heroe.getNombre() + ":");
-        for (Arma a : heroe.getArmasInvocadas()) {
-            System.out.println("- " + a.getNombre());
-        }
-
-        System.out.println("Armas invocadas por " + villano.getNombre() + ":");
-        for (Arma a : villano.getArmasInvocadas()) {
-            System.out.println("- " + a.getNombre());
-=======
-
-        // ===== RANKING DE VIDA FINAL (solo cálculo y muestra, sin reporte) =====
-        List<Personaje> participantes = Arrays.asList(heroe, villano);
-
-        // Ordenar por vida descendente; si empatan, por nombre A–Z
-        participantes.sort(
-            Comparator.comparingInt(Personaje::getVida).reversed()
-                      .thenComparing(Personaje::getNombre)
-        );
-
-        System.out.println("\n--- RANKING DE VIDA FINAL ---");
-        int pos = 1;
-        for (Personaje p : participantes) {
-            String estado = p.getVida() > 0 ? "OK" : "KO";
-            // Si tu clase Personaje tiene getSupremosUsados(), mostramos ese dato; si no, podés quitar esa parte.
-            System.out.println(
-                pos++ + ") " + p.getNombre() +
-                " — Vida: " + p.getVida() +
-                " [" + estado + "]" +
-                " | Supremos usados: " + p.getSupremosUsados()
-            );
->>>>>>> origin/contadorAtaques
-        }
     }
+    
 }
-
