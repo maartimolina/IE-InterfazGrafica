@@ -29,13 +29,13 @@ public abstract class Personaje {
     protected boolean yaInvocoArma = false; // solo 1 arma activa por batalla
     protected final Random rnd = new Random();
 
-<<<<<<< HEAD
+
     // ArryList para guardar las armas invocadas
     protected ArrayList<Arma> armasInvocadas = new ArrayList<>();
-=======
+
     // ===== NUEVO: contador de ataques supremos ejecutados =====
     private int supremosUsados = 0;
->>>>>>> origin/contadorAtaques
+
 
     public Personaje(String nombre, int vida, int fuerza, int defensa, Bendicion fuente, int porcentajeBendicion) {
         this.nombre = nombre;
@@ -143,16 +143,16 @@ public abstract class Personaje {
 
     @Override
     public String toString() {
-<<<<<<< HEAD
+
         return nombre + " [vida=" + vida + ", fuerza=" + fuerza + ", defensa=" + getDefensaActual() +
                 ", arma=" + (armaActual!=null? armaActual.getNombre():"-") +
                 ", %bend/mald=" + porcentajeBendicion + "]";
-=======
+
         return nombre + " [vida=" + vida + ", fuerza=" + fuerza + ", defensa=" + getDefensaActual()
                 + ", arma=" + (armaActual!=null? armaActual.getNombre():"-")
                 + ", %bend/mald=" + porcentajeBendicion
                 + ", supremosUsados=" + supremosUsados + "]";
->>>>>>> origin/contadorAtaques
+
     }
 }
 
