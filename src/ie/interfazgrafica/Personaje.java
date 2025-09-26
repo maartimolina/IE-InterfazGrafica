@@ -29,8 +29,13 @@ public abstract class Personaje {
     protected boolean yaInvocoArma = false; // solo 1 arma activa por batalla
     protected final Random rnd = new Random();
 
+<<<<<<< HEAD
     // ArryList para guardar las armas invocadas
     protected ArrayList<Arma> armasInvocadas = new ArrayList<>();
+=======
+    // ===== NUEVO: contador de ataques supremos ejecutados =====
+    private int supremosUsados = 0;
+>>>>>>> origin/contadorAtaques
 
     public Personaje(String nombre, int vida, int fuerza, int defensa, Bendicion fuente, int porcentajeBendicion) {
         this.nombre = nombre;
@@ -55,6 +60,13 @@ public abstract class Personaje {
         return armasInvocadas; 
     }
 
+    // ===== NUEVO: API del contador de supremos =====
+    /** Incrementa el contador; llamalo al finalizar la ejecución de un ataque supremo. */
+    public void registrarSupremoUsado() { supremosUsados++; }
+
+    /** Devuelve cuántos ataques supremos ejecutó este personaje. */
+    public int getSupremosUsados() { return supremosUsados; }
+
     public void aplicarEstadosAlInicioDelTurno() {
         if (venenoTurnosRestantes > 0) {
             vida -= venenoDanioPorTurno;
@@ -71,10 +83,14 @@ public abstract class Personaje {
     }
 
     public void recibirDanio(int danio) {
-        int danioReal = Math.max(0, danio - getDefensaActual());
-        vida -= danioReal;
-        System.out.println(nombre + " recibe " + danioReal + " de danio. Vida: " + vida);
+    int danioReal = Math.max(0, danio - getDefensaActual());
+    vida -= danioReal;
+    if (vida < 0) {
+        vida = 0; // 👈 la vida nunca baja de cero
     }
+    System.out.println(nombre + " recibe " + danioReal + " de danio. Vida: " + vida);
+}
+
 
     public void curar(int puntos) {
         if (puntos <= 0) return;
@@ -127,9 +143,16 @@ public abstract class Personaje {
 
     @Override
     public String toString() {
+<<<<<<< HEAD
         return nombre + " [vida=" + vida + ", fuerza=" + fuerza + ", defensa=" + getDefensaActual() +
                 ", arma=" + (armaActual!=null? armaActual.getNombre():"-") +
                 ", %bend/mald=" + porcentajeBendicion + "]";
+=======
+        return nombre + " [vida=" + vida + ", fuerza=" + fuerza + ", defensa=" + getDefensaActual()
+                + ", arma=" + (armaActual!=null? armaActual.getNombre():"-")
+                + ", %bend/mald=" + porcentajeBendicion
+                + ", supremosUsados=" + supremosUsados + "]";
+>>>>>>> origin/contadorAtaques
     }
-
 }
+
