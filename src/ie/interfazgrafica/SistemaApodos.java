@@ -8,35 +8,37 @@ package ie.interfazgrafica;
  *
  * @author Usuario
  */
-import java.util.Scanner;  //importamos scanner
+import java.util.Scanner; // usamos scanner
 
 public class SistemaApodos {
-      public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in); // Creamos el objeto Scanner para leer entradas
 
-        System.out.print("Ingrese la cantidad de jugadores: "); 
-        int n = sc.nextInt(); // Guardamos la cantidad de jugadores
-        sc.nextLine(); // Limpiamos el buffer (porque nextInt deja un "Enter" pendiente)
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
 
-        String[] apodos = new String[n]; // Creamos un array para guardar los apodos de todos los jugadores
+        System.out.print("Ingrese la cantidad de jugadores: ");
+        int n = sc.nextInt();
+        sc.nextLine(); // limpia el Enter pendiente
 
-     // Recorremos a cada jugador
+        String[] apodos = new String[n];
+
         for (int i = 0; i < n; i++) {
-            String apodo;
-
             System.out.print("Jugador " + (i + 1) + ", ingrese su apodo (3 a 10 caracteres, solo letras y espacios): ");
-            apodo = sc.nextLine(); // Leemos el primer apodo
+            String apodo = sc.nextLine();
 
+            // Mientras no sea valido, volver a pedir
+            while (!ValidacionApodos.esValido(apodo)) {
+                System.out.print("Apodo invalido. Intente nuevamente: ");
+                apodo = sc.nextLine();
+            }
 
-            apodos[i] = apodo; // Guardamos el apodo válido en el array
+            apodos[i] = apodo;
         }
 
-        // Mostramos todos los apodos aceptados
         System.out.println("\nLista de apodos aceptados:");
         for (int i = 0; i < n; i++) {
             System.out.println("Jugador " + (i + 1) + ": " + apodos[i]);
         }
-    }
-      
 
+        sc.close();
+    }
 }
