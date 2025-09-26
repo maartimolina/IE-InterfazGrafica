@@ -63,6 +63,15 @@ public class IEInterfazGrafica {
         System.out.println("\n===== RESULTADO FINAL =====");
         System.out.println("Heroe -> Vida: " + heroe.getVida());
         System.out.println("Villano -> Vida: " + villano.getVida());
+        System.out.println("Armas invocadas por " + heroe.getNombre() + ":");
+        for (Arma a : heroe.getArmasInvocadas()) {
+            System.out.println("- " + a.getNombre());
+        }
+
+        System.out.println("Armas invocadas por " + villano.getNombre() + ":");
+        for (Arma a : villano.getArmasInvocadas()) {
+            System.out.println("- " + a.getNombre());
+        }
     }
     
 }

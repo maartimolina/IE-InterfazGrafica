@@ -4,6 +4,8 @@
  */
 package ie.interfazgrafica;
 import java.util.Random;
+import java.util.ArrayList;
+
 /**
  *
  * @author Mar
@@ -14,9 +16,9 @@ public abstract class Personaje {
     protected int fuerza;
     protected int defensaBase;
 
-    protected Arma armaActual; // opcional
+    protected Arma armaActual; // arma activa
     protected Bendicion fuenteDePoder; // BendicionCelestial o BendicionDelVacio
-    protected int porcentajeBendicion; // 0..100 (o "maldicion" para villanos)
+    protected int porcentajeBendicion; // 0..100
 
     // Estados por turnos
     private int venenoTurnosRestantes = 0;
@@ -26,6 +28,9 @@ public abstract class Personaje {
 
     protected boolean yaInvocoArma = false; // solo 1 arma activa por batalla
     protected final Random rnd = new Random();
+
+    // ArryList para guardar las armas invocadas
+    protected ArrayList<Arma> armasInvocadas = new ArrayList<>();
 
     public Personaje(String nombre, int vida, int fuerza, int defensa, Bendicion fuente, int porcentajeBendicion) {
         this.nombre = nombre;
@@ -42,7 +47,13 @@ public abstract class Personaje {
 
     public String getNombre() { return nombre; }
     public int getVida() { return vida; }
-    public Arma getArmaActual() { return armaActual; }
+    public Arma getArmaActual() { return armaActual; } //arma que se invoco
+
+    // getter para consultar las armas invocadas
+    public ArrayList<Arma> getArmasInvocadas()
+    { 
+        return armasInvocadas; 
+    }
 
     public void aplicarEstadosAlInicioDelTurno() {
         if (venenoTurnosRestantes > 0) {
@@ -101,7 +112,12 @@ public abstract class Personaje {
         if (armaActual != null) {
             armaActual.setPortador(this);
             yaInvocoArma = true;
-            System.out.println(nombre + " invoca " + armaActual.getNombre() + " (bendicion " + porcentajeBendicion + "%).");
+
+            // guardar en la lista de invocadas
+            armasInvocadas.add(armaActual);
+
+            System.out.println(nombre + " invoca " + armaActual.getNombre() +
+                    " (bendicion " + porcentajeBendicion + "%).");
         } else {
             System.out.println(nombre + " no pudo invocar un arma.");
         }
@@ -111,7 +127,9 @@ public abstract class Personaje {
 
     @Override
     public String toString() {
-        return nombre + " [vida=" + vida + ", fuerza=" + fuerza + ", defensa=" + getDefensaActual() + ", arma=" + (armaActual!=null? armaActual.getNombre():"-") + ", %bend/mald=" + porcentajeBendicion + "]";
+        return nombre + " [vida=" + vida + ", fuerza=" + fuerza + ", defensa=" + getDefensaActual() +
+                ", arma=" + (armaActual!=null? armaActual.getNombre():"-") +
+                ", %bend/mald=" + porcentajeBendicion + "]";
     }
 
 }
