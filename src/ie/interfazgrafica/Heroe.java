@@ -4,29 +4,29 @@
  */
 package ie.interfazgrafica;
 
-/**
- *
- * @author Mar
- */
- class Heroe extends Personaje {
-     protected AtaqueSupremo ataqueSupremo;
+public class Heroe extends Personaje {
+
     public Heroe(String nombre, int vida, int fuerza, int defensa, int porcentajeBendicion) {
         super(nombre, vida, fuerza, defensa, new BendicionCelestial(), porcentajeBendicion);
-        if (porcentajeBendicion == 100) {
-            this.ataqueSupremo = new CastigoBendito(this);
-        }
     }
 
     @Override
     public void decidirAccion(Personaje enemigo) {
-        
-        if (ataqueSupremo != null) {
-            ataqueSupremo.ejecutar(enemigo);
-            ataqueSupremo = null;
-            
-        } else if (!yaInvocoArma) {
+        // Si no tiene arma → invoca sí o sí
+        if (armaActual == null) {
             invocarArma();
-            
+            return;
+        }
+
+        // Si llegó a 100% bendición y no usó supremo → lanza Castigo Bendito
+        if (porcentajeBendicion == 100 && getSupremosUsados() == 0) {
+            new CastigoBendito(this).ejecutar(enemigo);
+            return;
+        }
+
+        // 20% de probabilidad de invocar un arma nueva, si no ataca
+        if (rnd.nextDouble() < 0.2) {
+            invocarArma();
         } else {
             atacar(enemigo);
         }

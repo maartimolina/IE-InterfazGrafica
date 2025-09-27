@@ -8,23 +8,15 @@ package ie.interfazgrafica;
  *
  * @author Mar
  */
-public class LeviatanDelVacio extends AtaqueSupremo{
-    private int turnosRestantes= 3;
-    public LeviatanDelVacio(Personaje lanzador){
+public class LeviatanDelVacio extends AtaqueSupremo {
+    public LeviatanDelVacio(Personaje lanzador) {
         super("Leviatan del Vacio", lanzador);
-        
     }
+
     @Override
-    public void ejecutar(Personaje objetivo){
-        if (usado) return;
-        if(turnosRestantes > 0){
-            System.out.println(lanzador.getNombre()+" invocó al" + nombre + " quedan" + turnosRestantes + " turnos");
-            turnosRestantes--;
-        }else{
-            int danio= objetivo.getVida();
-            System.out.println(nombre + " hace" + danio);
-            objetivo.recibirDanio(danio);
-            usado=true;
-        }
+    public void ejecutar(Personaje objetivo) {
+        int danio = lanzador.getVida() / 2;
+        objetivo.recibirDanio(danio);
+        registrarUso(danio); // 👈 solo esto, ya se encarga de registrar evento y contador
     }
 }
