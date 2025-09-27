@@ -110,6 +110,46 @@ public class IEInterfazGrafica {
 
         guardarBatalla(sb.toString());
         mostrarHistorial();
+
+        System.out.println("\n===== RESULTADO FINAL =====");
+        System.out.println("Heroe -> Vida: " + heroe.getVida());
+        System.out.println("Villano -> Vida: " + villano.getVida());
+
+        System.out.println("Armas invocadas por " + heroe.getNombre() + ":");
+        for (Arma a : heroe.getArmasInvocadas()) {
+            System.out.println("- " + a.getNombre());
+        }
+
+        System.out.println("Armas invocadas por " + villano.getNombre() + ":");
+        for (Arma a : villano.getArmasInvocadas()) {
+            System.out.println("- " + a.getNombre());
+
+
+        // ===== RANKING DE VIDA FINAL (solo cálculo y muestra, sin reporte) =====
+        List<Personaje> participantes = Arrays.asList(heroe, villano);
+
+        // Ordenar por vida descendente; si empatan, por nombre A–Z
+        participantes.sort(
+            Comparator.comparingInt(Personaje::getVida).reversed()
+                      .thenComparing(Personaje::getNombre)
+        );
+
+        System.out.println("\n--- RANKING DE VIDA FINAL ---");
+        int pos = 1;
+        for (Personaje p : participantes) {
+            String estado = p.getVida() > 0 ? "OK" : "KO";
+            // Si tu clase Personaje tiene getSupremosUsados(), mostramos ese dato; si no, podés quitar esa parte.
+            System.out.println(
+                pos++ + ") " + p.getNombre() +
+                " — Vida: " + p.getVida() +
+                " [" + estado + "]" +
+                " | Supremos usados: " + p.getSupremosUsados()
+            );
+
+        }
+
     }
+  }
 }
+
 
