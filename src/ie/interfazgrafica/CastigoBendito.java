@@ -18,5 +18,6 @@ public class CastigoBendito extends AtaqueSupremo{
         int danio = lanzador.getVida() / 2;
         System.out.println(lanzador.getNombre() + " activa " + nombre +  "hace " + danio + " de daño");
         objetivo.recibirDanio(danio);
+        usado=true;
     }
 }

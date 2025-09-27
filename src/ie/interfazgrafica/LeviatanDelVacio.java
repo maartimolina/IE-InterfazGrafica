@@ -16,6 +16,7 @@ public class LeviatanDelVacio extends AtaqueSupremo{
     }
     @Override
     public void ejecutar(Personaje objetivo){
+        if (usado) return;
         if(turnosRestantes > 0){
             System.out.println(lanzador.getNombre()+" invocó al" + nombre + " quedan" + turnosRestantes + " turnos");
             turnosRestantes--;
@@ -23,7 +24,7 @@ public class LeviatanDelVacio extends AtaqueSupremo{
             int danio= objetivo.getVida();
             System.out.println(nombre + " hace" + danio);
             objetivo.recibirDanio(danio);
-            turnosRestantes=3;
+            usado=true;
         }
     }
 }
