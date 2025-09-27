@@ -4,6 +4,7 @@
  */
 package ie.interfazgrafica;
 import java.util.Random;
+import java.util.ArrayList;
 /**
  *
  * @author Mar
@@ -119,8 +120,6 @@ public abstract class Personaje {
 
     @Override
     public String toString() {
-        return nombre + " [vida=" + vida + ", fuerza=" + fuerza + ", defensa=" + getDefensaActual() + ", arma=" + (armaActual!=null? armaActual.getNombre():"-") + ", %bend/mald=" + porcentajeBendicion + "]";
-
         return nombre + " [vida=" + vida + ", fuerza=" + fuerza + ", defensa=" + getDefensaActual()
                 + ", arma=" + (armaActual!=null? armaActual.getNombre():"-")
                 + ", %bend/mald=" + porcentajeBendicion
