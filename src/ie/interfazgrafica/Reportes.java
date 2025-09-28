@@ -9,7 +9,6 @@ public class Reportes {
                                  List<String> historial, int turnosTotales) {
         StringBuilder sb = new StringBuilder();
 
-        // clamp por las dudas
         int vidaH = Math.max(0, heroe.getVida());
         int vidaV = Math.max(0, villano.getVida());
 
@@ -37,10 +36,11 @@ public class Reportes {
         }
         sb.append("\n");
 
-        // --- HISTORIAL RECIENTE ---
+        // --- HISTORIAL RECIENTE (ultimos 5, de mas nuevo a mas viejo) ---
         sb.append("--- HISTORIAL RECIENTE ---\n");
-        for (int i = 0; i < historial.size(); i++) {
-            sb.append("BATALLA #").append(i + 1).append(" - ")
+        int numero = 1;
+        for (int i = historial.size() - 1; i >= 0; i--) {
+            sb.append("BATALLA #").append(numero++).append(" - ")
               .append(historial.get(i)).append("\n");
         }
         sb.append("=======================================\n");
