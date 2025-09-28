@@ -1,23 +1,80 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package ie.interfazgrafica;
-import java.util.Random;
 
-/**
- *
- * @author Mar
- */
+import java.util.*;
+import java.nio.file.*;
+import java.nio.charset.StandardCharsets;
+import java.io.IOException;
+
 public class IEInterfazGrafica {
 
-    /**
-     * @param args the command line arguments
-     */
+    // ==== HISTORIAL (ultimas 5) ====
+    private static final int HISTORIAL_MAX = 5;
+    private static final List<String> HISTORIAL = new ArrayList<>();
+    private static final Path HIST_PATH = Paths.get("historial_batallas.txt");
+
+    // ==== EVENTOS ESPECIALES (ataques supremos) ====
+    private static final List<String> eventosEspeciales = new ArrayList<>();
+
+    static {
+        cargarHistorialDesdeDisco();
+    }
+
+    public static void registrarEventoEspecial(String evento) {
+        eventosEspeciales.add(evento);
+    }
+
+    // Guarda una entrada (con tope 5) y persiste
+    public static void guardarBatalla(String batalla) {
+        if (HISTORIAL.size() == HISTORIAL_MAX) {
+            HISTORIAL.remove(0);
+        }
+        HISTORIAL.add(batalla);
+        guardarHistorialEnDisco();
+    }
+
+    private static void cargarHistorialDesdeDisco() {
+        try {
+            if (Files.exists(HIST_PATH)) {
+                List<String> lines = Files.readAllLines(HIST_PATH, StandardCharsets.UTF_8);
+                int start = Math.max(0, lines.size() - HISTORIAL_MAX);
+                HISTORIAL.clear();
+                HISTORIAL.addAll(lines.subList(start, lines.size()));
+            }
+        } catch (IOException e) {}
+    }
+
+    private static void guardarHistorialEnDisco() {
+        try {
+            Files.write(HIST_PATH, HISTORIAL, StandardCharsets.UTF_8,
+                    StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (IOException e) {}
+    }
+
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
         Random rnd = new Random();
+
+        System.out.println("=== SISTEMA DE APODOS ===");
+        System.out.print("Ingrese el apodo del Heroe (3 a 10 caracteres, solo letras y espacios): ");
+        String apodoHeroe = sc.nextLine();
+        while (!ValidacionApodos.esValido(apodoHeroe)) {
+            System.out.print("Apodo invalido. Intente nuevamente: ");
+            apodoHeroe = sc.nextLine();
+        }
+
+        System.out.print("Ingrese el apodo del Villano (3 a 10 caracteres, solo letras y espacios): ");
+        String apodoVillano = sc.nextLine();
+        while (!ValidacionApodos.esValido(apodoVillano)) {
+            System.out.print("Apodo invalido. Intente nuevamente: ");
+            apodoVillano = sc.nextLine();
+        }
+
+        System.out.println("\nHeroe: " + apodoHeroe + "  |  Villano: " + apodoVillano);
+        System.out.println("==========================================");
+
+        // ==== CREACION DE PERSONAJES ====
         Heroe heroe = new Heroe(
-                "Auron",
+                apodoHeroe,
                 130 + rnd.nextInt(31),
                 24 + rnd.nextInt(9),
                 8 + rnd.nextInt(6),
@@ -25,44 +82,45 @@ public class IEInterfazGrafica {
         );
 
         Villano villano = new Villano(
-                "Nox",
+                apodoVillano,
                 130 + rnd.nextInt(31),
                 24 + rnd.nextInt(9),
                 8 + rnd.nextInt(6),
                 30 + rnd.nextInt(71)
         );
 
-        System.out.println("===== ESTADO INICIAL =====");
-        System.out.println("Heroe -> " + heroe);
-        System.out.println("Villano -> " + villano);
-        System.out.println("\nComienza la batalla!\n");
-
         Personaje actual = heroe;
         Personaje enemigo = villano;
         int turno = 1;
 
+        // ==== COMBATE ====
         while (heroe.estaVivo() && villano.estaVivo()) {
-            System.out.println("===== TURNO " + (turno++) + " - " + actual.getNombre() + " =====");
             actual.aplicarEstadosAlInicioDelTurno();
-            if (!actual.estaVivo()) {
-                System.out.println(actual.getNombre() + " cayo por efectos persistentes.");
-                break;
-            }
+            if (!actual.estaVivo()) break;
 
             actual.decidirAccion(enemigo);
 
-            if (!enemigo.estaVivo()) {
-                System.out.println("\n" + actual.getNombre() + " ha derrotado a " + enemigo.getNombre() + "!");
-                break;
-            }
+            if (!enemigo.estaVivo()) break;
 
             Personaje tmp = actual; actual = enemigo; enemigo = tmp;
-            System.out.println();
+            turno++;
         }
 
-        System.out.println("\n===== RESULTADO FINAL =====");
-        System.out.println("Heroe -> Vida: " + heroe.getVida());
-        System.out.println("Villano -> Vida: " + villano.getVida());
+        // ==== HISTORIAL ====
+        int turnosTotales = turno;
+        String ganador = heroe.estaVivo() ? heroe.getNombre() : villano.getNombre();
+
+        String resumen = "Heroe: " + heroe.getNombre()
+                + " | Villano: " + villano.getNombre()
+                + " | Ganador: " + ganador
+                + " | Turnos: " + turnosTotales;
+
+        guardarBatalla(resumen);
+
+        // ==== REPORTE FINAL ====
+        String reporte = Reportes.generar(heroe, villano, eventosEspeciales, HISTORIAL, turnosTotales);
+        System.out.println(reporte);
+
+        sc.close();
     }
-    
 }
